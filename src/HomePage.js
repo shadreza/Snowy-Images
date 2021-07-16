@@ -1,6 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import {Elements , CardElement, useElements, useStripe} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+import CheckoutForm from './CheckoutForm';
+const stripePromise = loadStripe('pk_test_51HpsnaBwkYF7v8zyJv6tUkaZ7oJSK9NR9RooOSHXflogaq7N2JMeUuyfpwGBBqtsFdyhHT118ROqLXF20J5T6Gmq00NPEPBNC9');
 
 const HomePage = () => {
     const [image, setImage] = useState(null);
@@ -16,6 +20,7 @@ const HomePage = () => {
                 setImage(IMAGE)
             })
     }
+
     return (
         <div className="p-10">
             <h3 className="text-2xl">Hey there upload your images</h3>
@@ -32,6 +37,35 @@ const HomePage = () => {
                     />
             }
             </div>
+
+            <div className="p-10 text-center mt-10">
+                <Elements stripe={stripePromise}>
+                    <CheckoutForm />
+                </Elements>
+            </div>
+
+            {/* <div className="text-center flex justify-center mt-10">
+                <Elements stripe={stripePromise}>
+                    <CardElement
+                        className="w-80"
+                        options={{
+                            style: {
+                            base: {
+                                fontSize: '16px',
+                                color: '#424770',
+                                '::placeholder': {
+                                color: '#aab7c4',
+                                },
+                            },
+                            invalid: {
+                                color: '#9e2146',
+                            },
+                            },
+                        }}
+                    />
+                </Elements>
+                <button className="bg-green-500 p-3 rounded-xl hover:bg-blue-500 hover:text-white" onClick={handleSubmit}>Pay</button>
+            </div> */}
         </div>
     );
 };
